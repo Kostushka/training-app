@@ -1,0 +1,19 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin-top: 20px;
+    padding: 10px;
+    border: 2px solid greenyellow;
+}
+.header {
+    font-size: 16px;
+}
+.number {
+    font-weight: 600;
+    color: green;
+}
+.post {
+    margin-top: 5px;
+}
