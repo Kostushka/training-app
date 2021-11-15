@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import PostItem from './components/PostItem';
 import styles from './App.module.css';
+import UiButton from './components/UI/UiButton';
+import UiInput from './components/UI/UiInput';
+import PostList from './containers/PostList';
 
 const App = () => {
     const [posts, setPosts] = useState([
@@ -36,11 +38,42 @@ const App = () => {
             message: 'Целое число произвольной длины',
         },
     ]);
+
+    const [name, setName] = useState('');
+    const [message, setMessage] = useState('');
+    const addPost = (e) => {
+        e.preventDefault();
+        if (name && message) {
+            const newPost = { id: Math.random(), name, message };
+            setPosts([...posts, newPost]);
+            setName('');
+            setMessage('');
+        }
+    };
     return (
         <div className={styles.container}>
-            {posts.map((post, index) => (
-                <PostItem key={post.id} post={post} number={index} />
-            ))}
+            <form>
+                <UiInput
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    type='text'
+                    placeholder='Понятие'
+                />
+                <UiInput
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    type='text'
+                    placeholder='Определение'
+                />
+                {name && message ? (
+                    <UiButton onClick={addPost}>Добавить</UiButton>
+                ) : (
+                    <UiButton disabled onClick={addPost}>
+                        Добавить
+                    </UiButton>
+                )}
+            </form>
+            <PostList posts={posts} />
         </div>
     );
 };

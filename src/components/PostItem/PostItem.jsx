@@ -1,13 +1,17 @@
 import styles from './PostItem.module.css';
+import classes from '../UI/UiButton/UiButton.module.css';
 
-const PostItem = (props) => {
+const PostItem = ({ post, number }) => {
     return (
         <div className={styles.container}>
-            <strong className={styles.header}>
-                <span className={styles.number}>{props.number}. </span>
-                {props.post.name}
-            </strong>
-            <div className={styles.post}>{props.post.message}</div>
+            <div>
+                <strong className={styles.header}>
+                    <span className={styles.number}>{number}. </span>
+                    {post.name}
+                </strong>
+                <div className={styles.post}>{post.message}</div>
+            </div>
+            <button className={classes.btn}>Удалить</button>
         </div>
     );
 };
