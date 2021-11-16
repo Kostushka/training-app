@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import PostForm from './components/PostForm';
-import UiButton from './components/UI/UiButton';
-import UiInput from './components/UI/UiInput';
 import PostList from './containers/PostList';
 import styles from './App.module.css';
 
@@ -44,10 +42,14 @@ const App = () => {
         setPosts([...posts, newPost]);
     };
 
+    const removePost = (id) => {
+        setPosts(posts.filter((p) => p.id !== id));
+    };
+
     return (
         <div className={styles.container}>
             <PostForm create={createPost} />
-            <PostList posts={posts} />
+            <PostList posts={posts} remove={removePost} />
         </div>
     );
 };

@@ -1,7 +1,7 @@
+import UiButton from '../UI/UiButton';
 import styles from './PostItem.module.css';
-import classes from '../UI/UiButton/UiButton.module.css';
 
-const PostItem = ({ post, number }) => {
+const PostItem = ({ post, number, remove }) => {
     return (
         <div className={styles.container}>
             <div>
@@ -11,7 +11,7 @@ const PostItem = ({ post, number }) => {
                 </strong>
                 <div className={styles.post}>{post.message}</div>
             </div>
-            <button className={classes.btn}>Удалить</button>
+            <UiButton onClick={(e) => remove(post.id)}>Удалить</UiButton>
         </div>
     );
 };
