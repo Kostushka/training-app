@@ -49,7 +49,11 @@ const App = () => {
     return (
         <div className={styles.container}>
             <PostForm create={createPost} />
-            <PostList posts={posts} remove={removePost} />
+            {posts.length ? (
+                <PostList posts={posts} remove={removePost} />
+            ) : (
+                <h1 className={styles.header}>Нет данных</h1>
+            )}
         </div>
     );
 };
