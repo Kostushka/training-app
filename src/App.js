@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import PostForm from './components/PostForm';
 import PostList from './containers/PostList';
+import UiSelect from './components/UI/UiSelect';
+
 import styles from './App.module.css';
 
 const App = () => {
@@ -37,6 +39,12 @@ const App = () => {
             message: 'Целое число произвольной длины',
         },
     ]);
+    const [selectedSort, setSelectedSort] = useState('');
+
+    const sortPost = (value) => {
+        setSelectedSort(value);
+        setPosts([...posts].sort((a, b) => a[value].localeCompare(b[value])));
+    };
 
     const createPost = (newPost) => {
         setPosts([...posts, newPost]);
@@ -50,7 +58,19 @@ const App = () => {
         <div className={styles.container}>
             <PostForm create={createPost} />
             {posts.length ? (
-                <PostList posts={posts} remove={removePost} />
+                <>
+                    <UiSelect
+                        value={selectedSort}
+                        onChange={sortPost}
+                        options={[
+                            { value: 'name', name: 'По названию' },
+                            { value: 'message', name: 'По определению' },
+                        ]}
+                        defaultValue='Сортировка'
+                    />
+
+                    <PostList posts={posts} remove={removePost} />
+                </>
             ) : (
                 <h1 className={styles.header}>Нет данных</h1>
             )}

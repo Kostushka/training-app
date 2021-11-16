@@ -1,0 +1,10 @@
+.container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.select {
+    outline: none;
+    padding: 5px;
+    border: 2px solid orange;
+    cursor: pointer;
+}
