@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import styles from './App.module.css';
+import PostForm from './components/PostForm';
 import UiButton from './components/UI/UiButton';
 import UiInput from './components/UI/UiInput';
 import PostList from './containers/PostList';
+import styles from './App.module.css';
 
 const App = () => {
     const [posts, setPosts] = useState([
@@ -39,40 +40,13 @@ const App = () => {
         },
     ]);
 
-    const [name, setName] = useState('');
-    const [message, setMessage] = useState('');
-    const addPost = (e) => {
-        e.preventDefault();
-        if (name && message) {
-            const newPost = { id: Math.random(), name, message };
-            setPosts([...posts, newPost]);
-            setName('');
-            setMessage('');
-        }
+    const createPost = (newPost) => {
+        setPosts([...posts, newPost]);
     };
+
     return (
         <div className={styles.container}>
-            <form>
-                <UiInput
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    type='text'
-                    placeholder='Понятие'
-                />
-                <UiInput
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    type='text'
-                    placeholder='Определение'
-                />
-                {name && message ? (
-                    <UiButton onClick={addPost}>Добавить</UiButton>
-                ) : (
-                    <UiButton disabled onClick={addPost}>
-                        Добавить
-                    </UiButton>
-                )}
-            </form>
+            <PostForm create={createPost} />
             <PostList posts={posts} />
         </div>
     );
