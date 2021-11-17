@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import PostForm from './components/PostForm';
 import PostList from './containers/PostList';
-import UiSelect from './components/UI/UiSelect';
+import PostFilter from './components/PostFilter';
 
 import styles from './App.module.css';
 
@@ -39,12 +39,23 @@ const App = () => {
             message: 'Целое число произвольной длины',
         },
     ]);
-    const [selectedSort, setSelectedSort] = useState('');
 
-    const sortPost = (value) => {
-        setSelectedSort(value);
-        setPosts([...posts].sort((a, b) => a[value].localeCompare(b[value])));
-    };
+    const [filter, setFilter] = useState({ sort: '', search: '' });
+
+    const sortPosts = useMemo(() => {
+        if (filter.sort) {
+            return [...posts].sort((a, b) =>
+                a[filter.sort].localeCompare(b[filter.sort])
+            );
+        }
+        return posts;
+    }, [filter.sort, posts]);
+
+    const searchedAndSortedPosts = useMemo(() => {
+        return sortPosts.filter((post) =>
+            post.name.toLowerCase().includes(filter.search.toLowerCase())
+        );
+    }, [sortPosts, filter.search]);
 
     const createPost = (newPost) => {
         setPosts([...posts, newPost]);
@@ -57,20 +68,9 @@ const App = () => {
     return (
         <div className={styles.container}>
             <PostForm create={createPost} />
-            {posts.length ? (
-                <>
-                    <UiSelect
-                        value={selectedSort}
-                        onChange={sortPost}
-                        options={[
-                            { value: 'name', name: 'По названию' },
-                            { value: 'message', name: 'По определению' },
-                        ]}
-                        defaultValue='Сортировка'
-                    />
-
-                    <PostList posts={posts} remove={removePost} />
-                </>
+            <PostFilter filter={filter} setFilter={setFilter} />
+            {searchedAndSortedPosts.length ? (
+                <PostList posts={searchedAndSortedPosts} remove={removePost} />
             ) : (
                 <h1 className={styles.header}>Нет данных</h1>
             )}
