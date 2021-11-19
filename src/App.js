@@ -6,6 +6,7 @@ import UiModal from './components/UI/UiModal';
 
 import styles from './App.module.css';
 import UiButton from './components/UI/UiButton';
+import { usePosts } from './hooks/usePosts';
 
 const App = () => {
     const [posts, setPosts] = useState([
@@ -45,20 +46,7 @@ const App = () => {
     const [filter, setFilter] = useState({ sort: '', search: '' });
     const [modalVisible, setModalVisible] = useState(false);
 
-    const sortPosts = useMemo(() => {
-        if (filter.sort) {
-            return [...posts].sort((a, b) =>
-                a[filter.sort].localeCompare(b[filter.sort])
-            );
-        }
-        return posts;
-    }, [filter.sort, posts]);
-
-    const searchedAndSortedPosts = useMemo(() => {
-        return sortPosts.filter((post) =>
-            post.name.toLowerCase().includes(filter.search.toLowerCase())
-        );
-    }, [sortPosts, filter.search]);
+    const searchedAndSortedPosts = usePosts(posts, filter.sort, filter.search);
 
     const createPost = (newPost) => {
         setPosts([...posts, newPost]);
