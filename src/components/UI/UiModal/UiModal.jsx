@@ -1,13 +1,10 @@
 import styles from './UiModal.module.css';
+import cn from 'classnames';
 
 const UiModal = ({ children, visible, setVisible }) => {
-    const rootModalClass = [styles.modalContainer];
-    if (visible) {
-        rootModalClass.push(styles.active);
-    }
     return (
         <div
-            className={rootModalClass.join(' ')}
+            className={cn(styles.modalContainer, visible && styles.active)}
             onClick={(e) => setVisible(false)}
         >
             <div
