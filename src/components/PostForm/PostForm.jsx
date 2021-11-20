@@ -10,7 +10,7 @@ const PostForm = ({ create }) => {
     const addPost = (e) => {
         e.preventDefault();
         if (name && message) {
-            const newPost = { id: Math.random(), name, message };
+            const newPost = { id: Math.random(), title: name, body: message };
             create(newPost);
             setName('');
             setMessage('');

@@ -18,8 +18,8 @@ const PostFilter = ({ filter, setFilter }) => {
                     setFilter({ ...filter, sort: sortPost })
                 }
                 options={[
-                    { value: 'name', name: 'По названию' },
-                    { value: 'message', name: 'По определению' },
+                    { value: 'title', name: 'По названию' },
+                    { value: 'body', name: 'По определению' },
                 ]}
                 defaultValue='Сортировка'
             />

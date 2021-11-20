@@ -7,9 +7,9 @@ const PostItem = ({ post, number, remove }) => {
             <div>
                 <strong className={styles.header}>
                     <span className={styles.number}>{number}. </span>
-                    {post.name}
+                    {post.title}
                 </strong>
-                <div className={styles.post}>{post.message}</div>
+                <div className={styles.post}>{post.body}</div>
             </div>
             <UiButton onClick={(e) => remove(post.id)}>Удалить</UiButton>
         </div>
