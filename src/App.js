@@ -4,9 +4,11 @@ import PostList from './containers/PostList';
 import PostFilter from './components/PostFilter';
 import UiModal from './components/UI/UiModal';
 import UiButton from './components/UI/UiButton';
+import UiLoading from './components/UI/UiLoading';
 import { usePosts } from './hooks/usePosts';
 import { getApiResource } from './api/getApiResource';
 import styles from './App.module.css';
+import { useFetching } from './hooks/useFetching';
 
 const App = () => {
     // const [posts, setPosts] = useState([
@@ -47,10 +49,10 @@ const App = () => {
     const [filter, setFilter] = useState({ sort: '', search: '' });
     const [modalVisible, setModalVisible] = useState(false);
 
-    const getResource = async () => {
+    const [getResource, isFetchingPosts, errorPosts] = useFetching(async () => {
         const res = await getApiResource();
         setPosts(res);
-    };
+    });
 
     useEffect(() => {
         getResource();
@@ -78,7 +80,12 @@ const App = () => {
                 <PostForm create={createPost} />
             </UiModal>
             <PostFilter filter={filter} setFilter={setFilter} />
-            <PostList posts={searchedAndSortedPosts} remove={removePost} />
+            {errorPosts && <div>Ошибка ${errorPosts}</div>}
+            {isFetchingPosts ? (
+                <UiLoading />
+            ) : (
+                <PostList posts={searchedAndSortedPosts} remove={removePost} />
+            )}
         </div>
     );
 };
