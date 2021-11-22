@@ -5,10 +5,12 @@ import PostFilter from './components/PostFilter';
 import UiModal from './components/UI/UiModal';
 import UiButton from './components/UI/UiButton';
 import UiLoading from './components/UI/UiLoading';
+import UiPagination from './components/UI/UiPagination';
 import { usePosts } from './hooks/usePosts';
 import { getApiResource } from './api/getApiResource';
-import styles from './App.module.css';
 import { useFetching } from './hooks/useFetching';
+import { getPagesCount } from './utils/pages';
+import styles from './App.module.css';
 
 const App = () => {
     // const [posts, setPosts] = useState([
@@ -49,14 +51,20 @@ const App = () => {
     const [filter, setFilter] = useState({ sort: '', search: '' });
     const [modalVisible, setModalVisible] = useState(false);
 
+    const [page, setPage] = useState(1);
+    const [limit] = useState(10);
+    const [totalPagesCount, setTotalPagesCount] = useState(0);
+
     const [getResource, isFetchingPosts, errorPosts] = useFetching(async () => {
-        const res = await getApiResource();
-        setPosts(res);
+        const res = await getApiResource(limit, page);
+        const totalCount = res.headers['x-total-count'];
+        setTotalPagesCount(getPagesCount(totalCount, limit));
+        setPosts(res.data);
     });
 
     useEffect(() => {
         getResource();
-    }, []);
+    }, [page]);
 
     const searchedAndSortedPosts = usePosts(posts, filter.sort, filter.search);
 
@@ -67,6 +75,10 @@ const App = () => {
 
     const removePost = (id) => {
         setPosts(posts.filter((p) => p.id !== id));
+    };
+
+    const changePage = (page) => {
+        setPage(page);
     };
 
     return (
@@ -86,6 +98,11 @@ const App = () => {
             ) : (
                 <PostList posts={searchedAndSortedPosts} remove={removePost} />
             )}
+            <UiPagination
+                totalPagesCount={totalPagesCount}
+                page={page}
+                changePage={changePage}
+            />
         </div>
     );
 };
