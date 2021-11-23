@@ -1,7 +1,7 @@
 import UiButton from '../UI/UiButton';
 import styles from './PostItem.module.css';
 
-const PostItem = ({ post, number, remove }) => {
+const PostItem = ({ post, remove }) => {
     return (
         <div className={styles.container}>
             <div>

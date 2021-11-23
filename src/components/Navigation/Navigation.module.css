@@ -1,0 +1,18 @@
+.nav {
+    display: flex;
+    width: 100vw;
+    background-color: orange;
+    margin-bottom: 20px;
+}
+.nav__link {
+    padding: 10px 15px;
+}
+.nav__link a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: black;
+    transition: 0.1s;
+}
+.nav__link a:hover {
+    text-decoration: underline;
+}

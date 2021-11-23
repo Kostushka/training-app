@@ -1,7 +1,8 @@
 .container {
     display: flex;
     justify-content: center;
-    margin-top: 50px;
+    margin-top: 30px;
+    margin-bottom: 50px;
 }
 .loader {
     width: 100px;
