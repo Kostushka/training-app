@@ -1,0 +1,10 @@
+.title {
+    margin-top: 30px;
+}
+
+.comments {
+    margin-top: 15px;
+    padding: 5px 10px;
+    border: 1px solid orange;
+    border-radius: 3px;
+}

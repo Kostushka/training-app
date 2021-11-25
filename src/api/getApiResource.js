@@ -9,3 +9,15 @@ export const getApiResource = async (limit = 10, page = 1) => {
     });
     return res;
 };
+export const getPostPage = async (id) => {
+    const res = await axios.get(
+        'https://jsonplaceholder.typicode.com/posts/' + id
+    );
+    return res;
+};
+export const getPostComments = async (id) => {
+    const res = await axios.get(
+        `https://jsonplaceholder.typicode.com/posts/${id}/comments`
+    );
+    return res;
+};
