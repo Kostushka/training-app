@@ -1,17 +1,26 @@
 import { Route, Routes } from 'react-router-dom';
-import Header from '../Header';
-import Posts from '../Posts';
-import Error from '../Error';
-import PostPage from '../PostPage';
+import { privateRoutes, publicRoutes } from '../../router';
 
 const Router = () => {
+    const isAuth = false;
     return (
         <>
             <Routes>
-                <Route path='/' element={<Header />} />
-                <Route path='posts' element={<Posts />} />
-                <Route path='posts/:id' element={<PostPage />} />
-                <Route path='*' element={<Error />} />
+                {isAuth
+                    ? privateRoutes.map((route, index) => (
+                          <Route
+                              key={index}
+                              path={route.path}
+                              element={route.element}
+                          />
+                      ))
+                    : publicRoutes.map((route, index) => (
+                          <Route
+                              key={index}
+                              path={route.path}
+                              element={route.element}
+                          />
+                      ))}
             </Routes>
         </>
     );
