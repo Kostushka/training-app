@@ -1,7 +1,9 @@
 .nav {
     display: flex;
+    justify-content: space-between;
     width: 100vw;
-    background-color: orange;
+    padding-right: 30px;
+    background-color: rgba(255, 166, 0, 0.76);
     margin-bottom: 20px;
 }
 .nav__link {
