@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import PostList from '../PostList';
 import PostFilter from '../../components/PostFilter';
 import PostForm from '../../components/PostForm';
@@ -9,6 +9,7 @@ import UiPagination from '../../components/UI/UiPagination';
 import { getApiResource } from '../../api/getApiResource';
 import { useFetching } from '../../hooks/useFetching';
 import { usePosts } from '../../hooks/usePosts';
+import { useObserver } from '../../hooks/useObserver';
 import { getPagesCount } from '../../utils/pages';
 
 import styles from './Posts.module.css';
@@ -56,11 +57,17 @@ const Posts = () => {
     const [limit] = useState(10);
     const [totalPagesCount, setTotalPagesCount] = useState(0);
 
+    const lastElement = useRef();
+
     const [getResource, isFetchingPosts, errorPosts] = useFetching(async () => {
         const res = await getApiResource(limit, page);
         const totalCount = res.headers['x-total-count'];
         setTotalPagesCount(getPagesCount(totalCount, limit));
         setPosts(res.data);
+    });
+
+    useObserver(lastElement, isFetchingPosts, page < totalPagesCount, () => {
+        setPage(page + 1);
     });
 
     useEffect(() => {
@@ -93,17 +100,21 @@ const Posts = () => {
                 <PostForm create={createPost} />
             </UiModal>
             <PostFilter filter={filter} setFilter={setFilter} />
+
             {errorPosts && <div>Ошибка ${errorPosts}</div>}
+
             {isFetchingPosts ? (
                 <UiLoading />
             ) : (
                 <PostList posts={searchedAndSortedPosts} remove={removePost} />
             )}
+
             <UiPagination
                 totalPagesCount={totalPagesCount}
                 page={page}
                 changePage={changePage}
             />
+            <div ref={lastElement} className={styles.div} />
         </div>
     );
 };
